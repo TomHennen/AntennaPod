@@ -31,9 +31,7 @@ public class SubscriptionsAdapter extends BaseAdapter implements AdapterView.OnI
 
     /** placeholder object that indicates item should be added */
     public static final Object ADD_ITEM_OBJ = new Object();
-
-    /** the position in the view that holds the add item */
-    private static final int ADD_POSITION = 0;
+    ;
     private static final String TAG = "SubscriptionsAdapter";
 
     private final WeakReference<MainActivity> mainActivityRef;
@@ -44,29 +42,30 @@ public class SubscriptionsAdapter extends BaseAdapter implements AdapterView.OnI
         this.itemAccess = itemAccess;
     }
 
-    private int getAdjustedPosition(int origPosition) {
-        return origPosition - 1;
-    }
-
     @Override
     public int getCount() {
         return 1 + itemAccess.getCount();
     }
 
+    private int getAddPosition() {
+        // add goes on the bottom, last
+        return getCount() - 1;
+    }
+
     @Override
     public Object getItem(int position) {
-        if (position == ADD_POSITION) {
+        if (position == getAddPosition()) {
             return ADD_ITEM_OBJ;
         }
-        return itemAccess.getItem(getAdjustedPosition(position));
+        return itemAccess.getItem(position);
     }
 
     @Override
     public long getItemId(int position) {
-        if (position == ADD_POSITION) {
+        if (position == getAddPosition()) {
             return 0;
         }
-        return itemAccess.getItem(getAdjustedPosition(position)).getId();
+        return itemAccess.getItem(position).getId();
     }
 
     @Override
@@ -89,7 +88,7 @@ public class SubscriptionsAdapter extends BaseAdapter implements AdapterView.OnI
             holder = (Holder) convertView.getTag();
         }
 
-        if (position == ADD_POSITION) {
+        if (position == getAddPosition()) {
             holder.feedTitle.setText("{md-add 500%}\n\n" + mainActivityRef.get().getString(R.string.add_feed_label));
                     holder.feedTitle.setVisibility(View.VISIBLE);
             // prevent any accidental re-use of old values (not sure how that would happen...)
@@ -119,7 +118,7 @@ public class SubscriptionsAdapter extends BaseAdapter implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (position == ADD_POSITION) {
+        if (position == getAddPosition()) {
             mainActivityRef.get().loadChildFragment(new AddFeedFragment());
         } else {
             Fragment fragment = ItemlistFragment.newInstance(getItemId(position));
