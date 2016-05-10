@@ -3,11 +3,15 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "https://jitpack.io"
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:1.5.0"
         classpath "me.tatarka:gradle-retrolambda:3.2.4"
         classpath "me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2"
+        classpath "com.github.sugoi-wada:android-publisher-gradle-plugin:minor~0.1.0"
 
         // Exclude the version that the android plugin depends on.
         configurations.classpath.exclude group: "com.android.tools.external.lombok"
