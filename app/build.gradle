@@ -2,6 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 apply plugin: "com.android.application"
 apply plugin: "me.tatarka.retrolambda"
+apply plugin: 'publisher'
 
 repositories {
     maven { url "https://jitpack.io" }
@@ -138,6 +139,12 @@ android {
         additionalParameters "--no-version-vectors"
     }
 }
+
+publish {
+    clientEmail "522080222319-compute@developer.gserviceaccount.com"
+    p12File file("serviceaccount-c3d7d0f61387.p12")
+}
+
 
 // about.html is templatized so that we can automatically insert
 // our version string in to it at build time.
